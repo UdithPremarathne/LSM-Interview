@@ -7,8 +7,13 @@ public class MoneyTextManager : MonoBehaviour
 {
     public static MoneyTextManager instance;
     public TextMeshProUGUI text;
+    private static readonly object mp = PlayerProgress
+        .Instance.GetType().GetProperty(Globals.PROGRESS_TYPE_MONEY)
+        .GetValue(PlayerProgress.Instance, null);
+
     // get singleton instance for player progress fields
-    MoneyProgress progress = PlayerProgress.Instance;
+    MoneyProgress moneyProgress = (MoneyProgress)mp;
+
     // scene specific notes count is initialized
     int count = 0;
 
@@ -17,7 +22,7 @@ public class MoneyTextManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            count = progress.MoneyCount;
+            count = moneyProgress.MoneyCount;
             text.text = $"{count}";
         }
     }
@@ -25,14 +30,14 @@ public class MoneyTextManager : MonoBehaviour
     public void AddToScore(int moneyValue)
     {
         count += moneyValue;
-        progress.MoneyCount = count;
+        moneyProgress.MoneyCount = count;
         text.text = (count.ToString());
     }
 
     public void DeductFromScore(int moneyValue)
     {
         count -= moneyValue;
-        progress.MoneyCount = count;
+        moneyProgress.MoneyCount = count;
         text.text = (count.ToString());
     }
 }

@@ -7,10 +7,18 @@ using UnityEngine.UI;
 public class BuyShirt : MonoBehaviour
 {
     public Animator animator;
-    public RuntimeAnimatorController redAnim;
-    // get singleton instance for player progress fields
-    MoneyProgress progress = PlayerProgress.Instance;
+    public RuntimeAnimatorController animController;
 
+    private static readonly object mp = PlayerProgress
+        .Instance.GetType().GetProperty(Globals.PROGRESS_TYPE_MONEY)
+        .GetValue(PlayerProgress.Instance, null);
+    private static readonly object sp = PlayerProgress
+        .Instance.GetType().GetProperty(Globals.PROGRESS_TYPE_SKIN)
+        .GetValue(PlayerProgress.Instance, null);
+
+    // get singleton instance for player progress fields
+    readonly MoneyProgress moneyProgress = (MoneyProgress)mp;
+    readonly SkinProgress skinProgress = (SkinProgress)sp;
 
     // Start is called before the first frame update
     void Start()
@@ -24,19 +32,19 @@ public class BuyShirt : MonoBehaviour
 
     public void TestButtonClick()
     {
-        if (progress.MoneyCount > 0)
+        if (moneyProgress.MoneyCount > 0)
         {
-            Debug.Log(progress.MoneyCount);
-            int localCount = progress.MoneyCount;
-            progress.MoneyCount = localCount - Globals.RED_SHIRT_VALUE;
+            Debug.Log(moneyProgress.MoneyCount);
+            int localCount = moneyProgress.MoneyCount;
+            moneyProgress.MoneyCount = localCount - Globals.RED_SHIRT_VALUE;
             MoneyTextManager.instance.DeductFromScore(Globals.RED_SHIRT_VALUE);
-            Debug.Log(progress.MoneyCount);
-            animator.runtimeAnimatorController = redAnim;
+            Debug.Log(moneyProgress.MoneyCount);
+            animator.runtimeAnimatorController = animController;
+            skinProgress.AnimController = animController;
         } 
         else
         {
-            // ubata behe ganna oka
-            Debug.Log("Ubata ba");
+            Debug.Log("Not enough money dialog box");
         }
     }
 }
