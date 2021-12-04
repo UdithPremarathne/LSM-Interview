@@ -34,13 +34,14 @@ public class BuyShirt : MonoBehaviour
     {
         if (moneyProgress.MoneyCount > 0)
         {
-            Debug.Log(moneyProgress.MoneyCount);
+            
             int localCount = moneyProgress.MoneyCount;
             moneyProgress.MoneyCount = localCount - Globals.RED_SHIRT_VALUE;
             MoneyTextManager.instance.DeductFromScore(Globals.RED_SHIRT_VALUE);
             Debug.Log(moneyProgress.MoneyCount);
             animator.runtimeAnimatorController = animController;
             skinProgress.AnimController = animController;
+            FindObjectOfType<AudioManager>().Play("Money");
         } 
         else
         {

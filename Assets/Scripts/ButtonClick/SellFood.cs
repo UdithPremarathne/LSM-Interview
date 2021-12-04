@@ -8,6 +8,7 @@ public class SellFood : MonoBehaviour
     public Text qty , val;
     public int quantity;
     public int price;
+    public GameObject food;
 
     private static readonly object mp = PlayerProgress
         .Instance.GetType().GetProperty(Globals.PROGRESS_TYPE_MONEY)
@@ -32,13 +33,17 @@ public class SellFood : MonoBehaviour
 
     public void OnSellFood()
     {
-        Debug.Log("Squantitiy : " + quantity);
         if (quantity > 0)
         {
             quantity--;
             qty.text = $"X {quantity}";
             moneyProgress.MoneyCount += price;
             MoneyTextManager.instance.AddToScore(price);
+            FindObjectOfType<AudioManager>().Play("CashRegister");
+        }
+        else
+        {
+            food.SetActive(false);
         }
     }
 }

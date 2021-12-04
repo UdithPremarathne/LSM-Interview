@@ -21,6 +21,7 @@ public class Sign : Interactable
     {
         if (Input.GetKeyDown(KeyCode.Space) && playerInRange)
         {
+            FindObjectOfType<AudioManager>().Play("Open");
             if (dialogbox.activeInHierarchy)
             {
                 dialogbox.SetActive(false);

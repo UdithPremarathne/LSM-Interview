@@ -20,6 +20,7 @@ public class Money : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            FindObjectOfType<AudioManager>().Play("Collect");
             MoneyTextManager.instance.AddToScore(Globals.DOLLAR_VALUE);
             Destroy(this.gameObject);
         }

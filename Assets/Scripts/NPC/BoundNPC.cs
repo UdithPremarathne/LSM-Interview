@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoundNPC : Interactable
 {
@@ -26,7 +27,8 @@ public class BoundNPC : Interactable
         if (!playerInRange)
         {
             Move();
-        }    
+        }
+
     }
 
     private void Move()
